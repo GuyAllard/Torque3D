@@ -65,6 +65,10 @@ function EWCreatorWindow::init( %this )
       %this.registerMissionObject( "DustSimulation", "Dust Simulation" );
       %this.registerMissionObject( "DustEffecter", "Dust Effecter" );
       
+      // GUY BACKDROP >>
+      %this.registerMissionObject( "BackdropShape", "Backdrop shape" );
+      // GUY BACKDROP <<
+      
    %this.endGroup();
 
    %this.beginGroup( "Level" );

@@ -877,6 +877,15 @@ function ObjectBuilderGui::buildParticleSimulation(%this)
 	%this.process();
 }
 
+// GUY BACKDROP >>
+function ObjectBuilderGui::buildBackdropShape( %this )
+{
+   %this.objectClassName = "BackdropShape";
+   %this.addField( "shapeName", "TypeFile", "Shape File", "", "*.*");
+   %this.process();
+}
+// GUY BACKDROP <<
+
 //------------------------------------------------------------------------------
 // Mission
 //------------------------------------------------------------------------------

@@ -54,6 +54,13 @@ function initRenderManager()
    //DiffuseRenderPassManager.addManager( new RenderVistaMgr()               { bintype = "Vista"; renderOrder = 0.15; processAddOrder = 0.15; } );
    
    DiffuseRenderPassManager.addManager( new RenderObjectMgr()              { bintype = "Begin"; renderOrder = 0.2; processAddOrder = 0.2; } );
+   
+   // GUY BACKDROP >>
+   // setup render bins for backdrop shapes
+   DiffuseRenderPassManager.addManager( new RenderMeshMgr()                    { bintype = "BackdropMesh"; renderOrder = 0.25; processAddOrder = 0.25; } );
+   DiffuseRenderPassManager.addManager( new RenderTranslucentBackdropMeshMgr() { bintype = "TranslucentBackdropMesh"; renderOrder = 0.26; processAddOrder = 0.26; } );
+   // GUY BACKDROP <<
+      
    // Normal mesh rendering.
    DiffuseRenderPassManager.addManager( new RenderTerrainMgr()             { renderOrder = 0.4; processAddOrder = 0.4; } );
    DiffuseRenderPassManager.addManager( new RenderMeshMgr()                { bintype = "Mesh"; renderOrder = 0.5; processAddOrder = 0.5; } );

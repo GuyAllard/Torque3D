@@ -92,6 +92,11 @@ RenderGlowMgr::RenderGlowMgr()
    notifyType( RenderPassManager::RIT_Translucent );
    notifyType( RenderPassManager::RIT_Particle );
 
+   // GUY BACKDROP >>
+   notifyType(RenderPassManager::RIT_BackdropMesh);
+   notifyType(RenderPassManager::RIT_TranslucentBackdropMesh);
+   // GUY BACKDROP <<
+
    mParticleRenderMgr = NULL;
 
    mNamedTarget.registerWithName( "glowbuffer" );

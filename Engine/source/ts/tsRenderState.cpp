@@ -34,7 +34,8 @@ TSRenderState::TSRenderState()
       mCuller( NULL ),
       mLightQuery( NULL ),
       mUseOriginSort( false ),
-      mAccuTex( NULL )
+      mAccuTex(NULL) /* GUY BACKDROP >> */,
+      mBackdropBinHint(false) /* GUY BACKDROP << */
 {
 }
 
@@ -47,6 +48,7 @@ TSRenderState::TSRenderState( const TSRenderState &state )
       mMaterialHint( state.mMaterialHint ),
       mCuller( state.mCuller ),
       mLightQuery( state.mLightQuery ),
-      mUseOriginSort( state.mUseOriginSort )
+      mUseOriginSort( state.mUseOriginSort ) /* GUY BACKDROP >> */,
+      mBackdropBinHint(state.mBackdropBinHint) /* GUY BACKDROP << */
 {
 }

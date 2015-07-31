@@ -117,6 +117,11 @@ public:
    static const RenderInstType RIT_Occluder;
    static const RenderInstType RIT_Editor;
 
+   // GUY BACKDROP >>
+   static const RenderInstType RIT_BackdropMesh;
+   static const RenderInstType RIT_TranslucentBackdropMesh;
+   // GUY BACKDROP <<
+
 public:
 
    RenderPassManager();

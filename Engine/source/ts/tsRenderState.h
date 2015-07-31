@@ -109,6 +109,11 @@ protected:
    // volume. This is passed down per-object.
    GFXTextureObject* mAccuTex;
 
+   // GUY BACKDROP >>
+   // a hint that allows the render bin to be chosen by the object
+   bool mBackdropBinHint;
+   // GUY BACKDROP <<
+
 public:
 
    
@@ -158,6 +163,12 @@ public:
    ///@see mAccuTex
    void setAccuTex( GFXTextureObject* query ) { mAccuTex = query; }
    GFXTextureObject* getAccuTex() const { return mAccuTex; }
+
+   // GUY BACKDROP >>
+   ///@see mBackdropBinHint
+   void setBackdropBinHint(bool hint) { mBackdropBinHint = hint; }
+   bool getBackdropBinHint() const { return mBackdropBinHint; }
+   // GUY BACKDROP <<
 
    /// @}
 };

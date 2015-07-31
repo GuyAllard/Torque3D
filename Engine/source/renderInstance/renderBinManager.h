@@ -160,7 +160,9 @@ inline BaseMatInstance* RenderBinManager::getMaterial( RenderInst *inst ) const
 {
    if (  inst->type == RenderPassManager::RIT_Mesh || 
          inst->type == RenderPassManager::RIT_Decal ||
-         inst->type == RenderPassManager::RIT_Translucent )
+         inst->type == RenderPassManager::RIT_Translucent /* GUY BACKDROP >> */ ||
+         inst->type == RenderPassManager::RIT_TranslucentBackdropMesh ||
+         inst->type == RenderPassManager::RIT_BackdropMesh /* GUY BACKDROP<< */)
       return static_cast<MeshRenderInst*>(inst)->matInst;
 
    return NULL;      

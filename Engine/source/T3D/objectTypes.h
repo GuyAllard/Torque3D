@@ -147,11 +147,21 @@ enum SceneObjectTypes
    /// @see PhysicalZone
    PhysicalZoneObjectType = BIT( 22 ),
 
+   // GUY BACKDROP >>
+   // An object that is rendered as part of the backdrop scene
+   BackdropObjectType = BIT(23),
+   // GUY BACKDROP <<
+
    /// @}
 };
 
 enum SceneObjectTypeMasks
 {
+   // GUY BACKDROP >>
+   // objects to render to the background
+   BACKDROP_RENDER_TYPEMASK = BackdropObjectType,
+   // GUY BACKDROP <<
+
    STATIC_COLLISION_TYPEMASK = StaticShapeObjectType,
 
    DAMAGEABLE_TYPEMASK = (   PlayerObjectType        |

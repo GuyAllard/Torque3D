@@ -178,6 +178,18 @@ void SceneManager::renderScene( ScenePassType passType, U32 objectMask )
 
    // Render.
 
+   // GUY BACKDROP >>
+   // render background objects first
+   if (passType == SPT_Diffuse)
+   {
+       // render backdrop
+       renderScene(&renderState, BACKDROP_RENDER_TYPEMASK);
+       // clear the z buffer so that everything else renders on top of the backdrop
+       GFX->clear(GFXClearZBuffer, ColorI::BLACK, 1.0f, 0);
+   }
+   // then render the rest of the scene
+   // GUY BACKDROP <<
+
    renderScene( &renderState, objectMask );
 }
 
@@ -191,6 +203,17 @@ void SceneManager::renderScene( SceneRenderState* renderState, U32 objectMask, S
 
    PROFILE_START( SceneGraph_registerLights );
       LIGHTMGR->registerGlobalLights( &renderState->getCullingFrustum(), false );
+      
+      // GUY BACKDROP>>
+      // Render backdrop shapes lit only by the sun
+      if (objectMask & BackdropObjectType)
+      {
+         LightInfo *sun = LIGHTMGR->getSpecialLight(LightManager::slSunLightType);
+         LIGHTMGR->unregisterAllLights();
+         if (sun)
+            LIGHTMGR->setSpecialLight(LightManager::slSunLightType, sun);
+      }
+      // GUY BACKDROP<<
    PROFILE_END();
 
    // If its a diffuse pass, update the current ambient light level.
@@ -347,7 +370,15 @@ void SceneManager::_renderScene( SceneRenderState* state, U32 objectMask, SceneZ
    // In the editor, override the type mask for diffuse passes.
 
    if( gEditingMission && state->isDiffusePass() )
-      objectMask = EDITOR_RENDER_TYPEMASK;
+       // GUY BACKDROP >>
+       // prevent editor from hosing our backdrop rendering
+       if (objectMask != BackdropObjectType)
+       {
+          objectMask = EDITOR_RENDER_TYPEMASK;
+          objectMask ^= BackdropObjectType;
+       }
+      // objectMask = EDITOR_RENDER_TYPEMASK;
+      // GUY BACKDROP <<
 
    // Update the zoning state and traverse zones.
 

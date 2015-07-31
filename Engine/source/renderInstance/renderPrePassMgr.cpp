@@ -83,6 +83,11 @@ RenderPrePassMgr::RenderPrePassMgr( bool gatherDepth,
    notifyType( RenderPassManager::RIT_Terrain );
    notifyType( RenderPassManager::RIT_Object );
 
+   // GUY BACKDROP >>
+   // include backdrop objects
+   notifyType(RenderPassManager::RIT_BackdropMesh);
+   // GUY BACKDROP <<
+
    // We want a full-resolution buffer
    mTargetSizeType = RenderTexTargetBinManager::WindowSize;
 
@@ -193,7 +198,8 @@ void RenderPrePassMgr::addElement( RenderInst *inst )
    // First what type of render instance is it?
    const bool isDecalMeshInst = inst->type == RenderPassManager::RIT_Decal;
 
-   const bool isMeshInst = inst->type == RenderPassManager::RIT_Mesh;
+   const bool isMeshInst = inst->type == RenderPassManager::RIT_Mesh /* GUY BACKDROP >> */ ||
+                           inst->type == RenderPassManager::RIT_BackdropMesh /* GUY BACKDROP<< */;
 
    const bool isTerrainInst = inst->type == RenderPassManager::RIT_Terrain;
 
