@@ -12,17 +12,6 @@ ConnectData main(AppData In,
     Out.wsPosition = mul( objTrans, float4( In.position.xyz, 1 ) ).xyz;
     Out.wsNormal = mul( objTrans, float4( normalize(In.normal.xyz), 0) ).xyz;
     
-    // adjusted world-space normal for triplanar mapping - not translated, corrected for scale
-    float3x3 normalMat = (float3x3)objTrans; // removes translation
-    
-    // invert the diagonal (scale)
-    normalMat[0][0] = 1 / normalMat[0][0];
-    normalMat[1][1] = 1 / normalMat[1][1];
-    normalMat[2][2] = 1 / normalMat[2][2];
-    
-    // transform the normal to world space
-    Out.wsNormalScaled = normalize(mul(In.normal, normalMat));
-    
     // LIGHTING
     float3x3 objToTangentSpace;
     objToTangentSpace[0] = In.T;

@@ -12,7 +12,7 @@ FragData main(ConnectData In,
     FragData Out;
 
     // calculate normal of the fragment
-    float3 norm = normalize(In.wsNormalScaled);
+    float3 norm = normalize(In.wsNormal);
     // get blend weights for this fragment
     float3 blendWeights = fragBlendWeights(norm, 3);
     

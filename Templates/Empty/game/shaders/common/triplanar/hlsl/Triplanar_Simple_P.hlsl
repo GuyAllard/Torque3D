@@ -5,7 +5,7 @@ FragData main(ConnectData In, uniform sampler2D diffuseMap)
     FragData Out;
 
     // calculate normal of the fragment
-    float3 norm = In.wsNormalScaled;
+    float3 norm = In.wsNormal;
     // get blend weights for this fragment
     float3 blendWeights = fragBlendWeights(norm, 3);
 

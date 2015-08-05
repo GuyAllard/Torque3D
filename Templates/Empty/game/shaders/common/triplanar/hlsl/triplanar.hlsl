@@ -14,8 +14,7 @@ struct ConnectData
     float4 HPOS             : POSITION;
     float3 wsPosition       : TEXCOORD0;
     float3 wsNormal         : TEXCOORD1;
-    float3 wsNormalScaled   : TEXCOORD2;
-    float3x3 worldToTangent : TEXCOORD3;
+    float3x3 worldToTangent : TEXCOORD2;
 };
 
 struct FragData
