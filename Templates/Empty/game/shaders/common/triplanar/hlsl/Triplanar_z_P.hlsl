@@ -40,7 +40,6 @@ FragData main(ConnectData In,
                         bumpz * blendWeights.zzzz;
                         
     bumpNormal.xyz = bumpNormal.xyz * 2.0 - 1.0;
-    bumpNormal.xyz *= bumpNormal.a;
     float3 wsNormal = normalize( mul( bumpNormal.xyz, In.worldToTangent ) );
     
     // LIGHTING
@@ -51,7 +50,7 @@ FragData main(ConnectData In,
     float4 lightCol = float4( diffuse.rgb + ambient.rgb, 1 );
     
     // Pixel Specular
-    float4 specCol = lightCol * diffuseCol.a * specular;
+    float4 specCol = lightCol * diffuseCol.a * specular * 0.5;
     
     // Final color
     Out.col = diffuseCol * lightCol + specCol;
