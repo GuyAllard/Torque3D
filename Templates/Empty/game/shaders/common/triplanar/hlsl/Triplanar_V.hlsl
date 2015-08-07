@@ -10,7 +10,16 @@ ConnectData main(AppData In,
     
     // world space position and normal for lighting
     Out.wsPosition = mul( objTrans, float4( In.position.xyz, 1 ) ).xyz;
-    Out.wsNormal = mul( objTrans, float4( normalize(In.normal.xyz), 0) ).xyz;
+    
+    float3 wsNormal = mul( objTrans, float4( normalize(In.normal.xyz), 0) ).xyz;
+    
+    Out.blendWeights = triBlendWeights(wsNormal, 3);
+    
+    TriplanarUVs uvs = worldSpaceTriplanarUVs(Out.wsPosition, wsNormal);
+    Out.tri_u = float3(uvs.uvX.x, uvs.uvY.x, uvs.uvZ.x);
+    Out.tri_v = float3(uvs.uvX.y, uvs.uvY.y, uvs.uvZ.y);
+    
+    
     
     // LIGHTING
     float3x3 objToTangentSpace;
