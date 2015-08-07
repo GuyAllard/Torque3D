@@ -20,7 +20,11 @@ FragData main(ConnectData In,
     float2 uvX = In.wsPosition.yz;
     float2 uvY = In.wsPosition.xz;
     float2 uvZ = In.wsPosition.xy;
-
+    
+    // rotate uv coords around +z axis
+    uvX.x *= sign(norm.x);
+    uvY.x *= -sign(norm.y);
+    
     // get color for each plane
     float4 colx = tex2D(diffuseMap, uvX);
     float4 coly = tex2D(diffuseMap, uvY);
@@ -30,6 +34,9 @@ FragData main(ConnectData In,
     float4 diffuseCol = colx.xyzw * blendWeights.xxxx +
                         coly.xyzw * blendWeights.yyyy +
                         colz.xyzw * blendWeights.zzzz;
+    
+    // vizualize the blend weights
+    //diffuseCol *= float4(blendWeights, 1);
     
     // Bumpmap
     float4 bumpx = tex2D(bumpMap, uvX);
