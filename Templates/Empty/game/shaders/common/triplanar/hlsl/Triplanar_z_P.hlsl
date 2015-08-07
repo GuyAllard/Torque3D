@@ -39,9 +39,9 @@ FragData main(ConnectData In,
                         bumpz * In.blendWeights.zzzz;
                         
     bumpNormal.xyz = bumpNormal.xyz * 2.0 - 1.0;
-    float3 wsNormal = normalize( mul( bumpNormal.xyz, In.worldToTangent ) );
     
     // LIGHTING
+    float3 wsNormal = normalize( mul( bumpNormal.xyz, In.worldToTangent ) );
     float3 wsView = normalize( eyePosWorld - In.wsPosition );
     float4 diffuse; 
     float4 specular;
