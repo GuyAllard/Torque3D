@@ -3,7 +3,8 @@
 ConnectData main(AppData In, 
                  uniform float4x4 modelview, 
                  uniform float4x4 objTrans,
-                 uniform float4x4 worldToObj)
+                 uniform float4x4 worldToObj,
+                 uniform float4x4 worldInvTpose)
 {
     ConnectData Out;
     Out.HPOS = mul(modelview, float4(In.position.xyz, 1));
@@ -11,7 +12,8 @@ ConnectData main(AppData In,
     // world space position and normal for lighting
     Out.wsPosition = mul( objTrans, float4( In.position.xyz, 1 ) ).xyz;
     
-    float3 wsNormal = mul( objTrans, float4( normalize(In.normal.xyz), 0) ).xyz;
+    //float3 wsNormal = mul( objTrans, float4( normalize(In.normal.xyz), 0) ).xyz;
+    float3 wsNormal = normalize(mul(worldInvTpose, float4(In.normal.xyz, 0) ).xyz);
     
     Out.blendWeights = triBlendWeights(wsNormal, 3);
     

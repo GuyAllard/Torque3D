@@ -49,6 +49,9 @@
 ///
 void ShaderConstHandles::init( GFXShader *shader, CustomMaterial* mat /*=NULL*/ )
 {
+   // GUY TRIPLANAR >>
+   mWorldInvTposeSC = shader->getShaderConstHandle(ShaderGenVars::worldInvTpose);
+   // GUY <<
    mDiffuseColorSC = shader->getShaderConstHandle("$diffuseMaterialColor");
    mTexMatSC = shader->getShaderConstHandle(ShaderGenVars::texMat);
    mToneMapTexSC = shader->getShaderConstHandle(ShaderGenVars::toneMap);
@@ -1226,6 +1229,18 @@ void ProcessedShaderMaterial::setTransforms(const MatrixSet &matrixSet, SceneRen
       shaderConsts->set( handles->mViewToObjSC, matrixSet.getCameraToObject() );
    if ( handles->mViewProjSC->isValid() )
       shaderConsts->set( handles->mViewProjSC, matrixSet.getWorldToScreen() );
+
+   // GUY TRIPLANAR >>
+   // We need the worldInverseTranspose matrix to ensure that world-space normals are
+   // not distorted by non-uniform object scaling.
+   // NOTE - Is this the best place to set it up? Should the matrix be added to MatrixSet for lazy eval?
+   //        Should probably only include this matrix as part of a triplanar feature
+   if (handles->mWorldInvTposeSC->isValid())
+   {
+      MatrixF objToWorld = matrixSet.getObjectToWorld();
+      shaderConsts->set(handles->mWorldInvTposeSC, objToWorld.transpose().inverse());
+   }
+   // GUY <<
 
    if (  handles->mCubeTransSC->isValid() &&
          ( _hasCubemap(pass) || mMaterial->mDynamicCubemap ) )

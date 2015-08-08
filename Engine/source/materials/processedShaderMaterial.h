@@ -41,6 +41,9 @@ class CustomMaterial;
 class ShaderConstHandles
 {
 public:
+   // GUY TRIPLANAR >>
+   GFXShaderConstHandle* mWorldInvTposeSC;
+   // GUY <<
    GFXShaderConstHandle* mDiffuseColorSC;
    GFXShaderConstHandle* mToneMapTexSC;
    GFXShaderConstHandle* mTexMatSC;

@@ -32,6 +32,9 @@
 ///
 struct ShaderGenVars
 {
+   // GUY TRIPLANAR >>
+   const static String worldInvTpose;
+   // GUY <<
    const static String modelview;
    const static String worldViewOnly;
    const static String worldToCamera;

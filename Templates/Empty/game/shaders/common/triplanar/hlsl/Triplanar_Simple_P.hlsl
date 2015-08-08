@@ -47,7 +47,7 @@ FragData main(ConnectData In,
     float4 lightCol = float4( diffuse.rgb + ambient.rgb, 1 );
     
     // Pixel Specular
-    float4 specCol = lightCol * diffuseCol.a * specular * 0.5;
+    float4 specCol = lightCol * specular * diffuseCol.a; // using diffuse alpha as spec map
     
     // Final color
     Out.col = diffuseCol * lightCol + specCol;

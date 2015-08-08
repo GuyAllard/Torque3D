@@ -23,6 +23,9 @@
 #include "platform/platform.h"
 #include "shaderGen/shaderGenVars.h"
 
+// GUY TRIPLANAR >>
+const String ShaderGenVars::worldInvTpose("$worldInvTpose");
+// GUY <<
 const String ShaderGenVars::modelview("$modelview");
 const String ShaderGenVars::worldViewOnly("$worldViewOnly");
 const String ShaderGenVars::worldToCamera("$worldToCamera");
