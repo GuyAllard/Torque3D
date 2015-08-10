@@ -383,6 +383,11 @@ void ProcessedShaderMaterial::_determineFeatures(  U32 stageNum,
          fd.features.addFeature( MFT_NormalMapAtlas );
    }
 
+   // GUY TRIPLANAR
+   if (mMaterial->mTriplanar)
+      fd.features.addFeature(MFT_Triplanar);
+   // GUY <<
+
    // Grab other features like normal maps, base texture, etc.
    FeatureSet mergeFeatures;
    mStages[stageNum].getFeatureSet( &mergeFeatures );

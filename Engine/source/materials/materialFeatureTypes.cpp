@@ -49,6 +49,8 @@ ImplementFeatureType( MFT_DetailNormalMap, MFG_Texture, 10.0f, true );
 
 ImplementFeatureType( MFT_AccuMap, MFG_PreLighting, 2.0f, true );
 
+ImplementFeatureType(MFT_Triplanar, MFG_PreLighting, 2.0f, true);
+
 ImplementFeatureType( MFT_RTLighting, MFG_Lighting, 2.0f, true );
 ImplementFeatureType( MFT_SubSurface, MFG_Lighting, 3.0f, true );
 ImplementFeatureType( MFT_LightMap, MFG_Lighting, 4.0f, true );

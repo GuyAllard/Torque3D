@@ -102,6 +102,10 @@ DeclareFeatureType( MFT_AccuStrength );
 DeclareFeatureType( MFT_AccuCoverage );
 DeclareFeatureType( MFT_AccuSpecular );
 
+// GUY TRIPLANAR >>
+DeclareFeatureType(MFT_Triplanar);
+// GUY <<
+
 /// This feature enables vertex coloring for the diffuse channel.
 DeclareFeatureType( MFT_DiffuseVertColor );
 

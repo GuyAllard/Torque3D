@@ -127,6 +127,10 @@ Material::Material()
       mAccuStrength[i]  = 0.6f;
       mAccuCoverage[i]  = 0.9f;
       mAccuSpecular[i]  = 16.0f;
+
+      // GUY TRIPLANAR >>
+      mTriplanar[1] = false;
+      // GUY <<
 	  
       mParallaxScale[i] = 0.0f;
 
@@ -276,6 +280,11 @@ void Material::initPersistFields()
 		 
       addField("accuSpecular",   TypeF32, Offset(mAccuSpecular, Material), MAX_STAGES,
          "Changes specularity to this value where the accumulated material is present.");
+
+      // GUY TRIPLANAR >>
+      addField("triplanar", TYPEID<bool>(), Offset(mTriplanar, Material), MAX_STAGES,
+         "Use tri-planar mapping.");
+      // GUY <<
 
       addField( "specularMap", TypeImageFilename, Offset(mSpecularMapFilename, Material), MAX_STAGES,
          "The specular map texture. The RGB channels of this texture provide a per-pixel replacement for the 'specular' parameter on the material. "

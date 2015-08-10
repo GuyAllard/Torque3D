@@ -205,6 +205,9 @@ public:
    F32      mAccuStrength[MAX_STAGES];
    F32      mAccuCoverage[MAX_STAGES];
    F32      mAccuSpecular[MAX_STAGES];
+   // GUY TRIPLANAR >>
+   bool     mTriplanar[MAX_STAGES];
+   // GUY <<
    FileName mOverlayMapFilename[MAX_STAGES];
    FileName mLightMapFilename[MAX_STAGES];
    FileName mToneMapFilename[MAX_STAGES];
