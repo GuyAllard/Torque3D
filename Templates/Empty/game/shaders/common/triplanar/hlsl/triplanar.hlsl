@@ -39,19 +39,23 @@ float3 fragFaceNormal(float3 fragPosition)
 }
 
 // triplanar UV cordinates from world space position and world space normal
-TriplanarUVs worldSpaceTriplanarUVs(float3 wsPosition, float3 wsNormal)
+void worldSpaceTriplanarUVs(float3 wsPosition, float3 wsNormal, out float3 tri_u, out float3 tri_v)
 {
-    TriplanarUVs uvs;
-    uvs.uvX = wsPosition.yz;
-    uvs.uvY = wsPosition.xz;
-    uvs.uvZ = wsPosition.xy;
+    float2 uvX;
+    float2 uvY;
+    float2 uvZ;
+    
+    uvX = wsPosition.yz;
+    uvY = wsPosition.xz;
+    uvZ = wsPosition.xy;
     
     // rotate uv coords around +z axis
-    uvs.uvX.x *= sign(wsNormal.x);
-    uvs.uvY.x *= -sign(wsNormal.y);
+    uvX.x *= sign(wsNormal.x);
+    uvY.x *= -sign(wsNormal.y);
     
-    return uvs;
-}
+    tri_u = float3(uvX.x, uvY.x, uvZ.x);
+    tri_v = float3(uvX.y, uvY.y, uvZ.y);
+ }
 
 // triplanar blending weights from world space normal
 float3 triBlendWeights(float3 wsNormal, float tightness)

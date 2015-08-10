@@ -12,15 +12,14 @@ ConnectData main(AppData In,
     // world space position and normal for lighting
     Out.wsPosition = mul( objTrans, float4( In.position.xyz, 1 ) ).xyz;
     
-    //float3 wsNormal = mul( objTrans, float4( normalize(In.normal.xyz), 0) ).xyz;
+    // transform the normals to world space, correct for non-uniform scale
     float3 wsNormal = normalize(mul(worldInvTpose, float4(In.normal.xyz, 0) ).xyz);
     
+    // determine tri-planar blend weights from world space normal
     Out.blendWeights = triBlendWeights(wsNormal, 3);
-    
-    TriplanarUVs uvs = worldSpaceTriplanarUVs(Out.wsPosition, wsNormal);
-    Out.tri_u = float3(uvs.uvX.x, uvs.uvY.x, uvs.uvZ.x);
-    Out.tri_v = float3(uvs.uvX.y, uvs.uvY.y, uvs.uvZ.y);
-    
+
+    // generate tri-planar uv coordinates
+    worldSpaceTriplanarUVs(Out.wsPosition, wsNormal, Out.tri_u, Out.tri_v);
     
     
     // LIGHTING
