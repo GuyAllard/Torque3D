@@ -978,7 +978,10 @@ function MaterialEditorGui::guiSync( %this, %material )
    MaterialEditorPropertiesWindow-->SequenceSliderSSS.setValue( %numFrames );
    
    // Accumulation
-   MaterialEditorPropertiesWindow-->accuCheckbox.setValue((%material).accuEnabled[%layer]);   
+   MaterialEditorPropertiesWindow-->accuCheckbox.setValue((%material).accuEnabled[%layer]);
+   
+   // Triplanar mapping
+   MaterialEditorPropertiesWindow-->triplanarCheckbox.setValue((%material).triplanar[%layer]);
    
    %this.preventUndo = false;
 }
@@ -2268,5 +2271,12 @@ function MaterialEditorMapThumbnail::onRightClick( %this )
 function MaterialEditorGui::updateAccuCheckbox(%this, %value)
 {
    MaterialEditorGui.updateActiveMaterial("accuEnabled[" @ MaterialEditorGui.currentLayer @ "]", %value);   
+   MaterialEditorGui.guiSync( materialEd_previewMaterial );
+}
+
+// Triplanar mapping
+function MaterialEditorGui::updateTriplanarCheckbox(%this, %value)
+{
+   MaterialEditorGui.updateActiveMaterial("triplanar[" @ MaterialEditorGui.currentLayer @ "]", %value);   
    MaterialEditorGui.guiSync( materialEd_previewMaterial );
 }
