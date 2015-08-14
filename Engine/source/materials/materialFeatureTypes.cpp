@@ -38,6 +38,9 @@ ImplementFeatureType( MFT_AccuStrength, MFG_PreTexture, 4.0f, true );
 ImplementFeatureType( MFT_AccuCoverage, MFG_PreTexture, 4.0f, true );
 ImplementFeatureType( MFT_AccuSpecular, MFG_PreTexture, 4.0f, true );
 
+// GUY TRIPLANAR >>
+ImplementFeatureType(MFT_Triplanar, MFG_PreTexture, 3.5f, true);
+// GUY <<
 ImplementFeatureType( MFT_DiffuseMap, MFG_Texture, 2.0f, true );
 ImplementFeatureType( MFT_OverlayMap, MFG_Texture, 3.0f, true );
 ImplementFeatureType( MFT_DetailMap, MFG_Texture, 4.0f, true );
@@ -48,8 +51,6 @@ ImplementFeatureType( MFT_NormalMap, MFG_Texture, 9.0f, true );
 ImplementFeatureType( MFT_DetailNormalMap, MFG_Texture, 10.0f, true );
 
 ImplementFeatureType( MFT_AccuMap, MFG_PreLighting, 2.0f, true );
-
-ImplementFeatureType(MFT_Triplanar, MFG_PreLighting, 2.0f, true);
 
 ImplementFeatureType( MFT_RTLighting, MFG_Lighting, 2.0f, true );
 ImplementFeatureType( MFT_SubSurface, MFG_Lighting, 3.0f, true );

@@ -34,6 +34,10 @@
 
 #include "lighting/advanced/advancedLightBinManager.h"
 
+// GUY TRIPLANAR >>
+#include "shaderGen/HLSL/triplanarFeatureHLSL.h"
+// GUY <<
+
 LangElement * ShaderFeatureHLSL::setupTexSpaceMat( Vector<ShaderComponent*> &, // componentList
                                                    Var **texSpaceMat )
 {
@@ -853,7 +857,32 @@ void DiffuseMapFeatHLSL::processPix(   Vector<ShaderComponent*> &componentList,
    diffuseMap->sampler = true;
    diffuseMap->constNum = Var::getTexUnitNum();     // used as texture unit num here
 
-   if (  fd.features[MFT_CubeMap] )
+   // GUY TRIPLANAR >>
+   // triplanar diffuse map
+   if ( fd.features[MFT_Triplanar] )
+   {
+      MultiLine * meta = new MultiLine;
+      output = meta;
+
+      meta->addStatement(new GenOp("   // Triplanar diffuse\r\n"));
+
+      Var *inBlendWeights = getInTexCoord("blendWeights", "float3", true, componentList);
+      Var *uvX = TriplanarFeatureHLSL::get_uvX(componentList, meta);
+      Var *uvY = TriplanarFeatureHLSL::get_uvY(componentList, meta);
+      Var *uvZ = TriplanarFeatureHLSL::get_uvZ(componentList, meta);
+      
+      LangElement *statement = new GenOp("tex2D(@, @) * @.x + tex2D(@, @) * @.y + tex2D(@, @) * @.z", 
+                                         diffuseMap, uvX, inBlendWeights,
+                                         diffuseMap, uvY, inBlendWeights,
+                                         diffuseMap, uvZ, inBlendWeights);
+
+      meta->addStatement( new GenOp("   @;\r\n", assignColor(statement, Material::Mul)));
+
+      // uncomment this to debug the blend weights
+      //statement = new GenOp("float4(@, 1);\r\n", inBlendWeights);
+      //meta->addStatement(new GenOp("   @;\r\n", assignColor(statement, Material::Mul)));
+   }
+   else /* GUY << */if (  fd.features[MFT_CubeMap] )
    {
       MultiLine * meta = new MultiLine;
       

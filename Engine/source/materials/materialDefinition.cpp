@@ -129,7 +129,7 @@ Material::Material()
       mAccuSpecular[i]  = 16.0f;
 
       // GUY TRIPLANAR >>
-      mTriplanar[1] = false;
+      mTriplanar[i] = false;
       // GUY <<
 	  
       mParallaxScale[i] = 0.0f;

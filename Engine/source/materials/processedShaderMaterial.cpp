@@ -50,6 +50,7 @@
 void ShaderConstHandles::init( GFXShader *shader, CustomMaterial* mat /*=NULL*/ )
 {
    // GUY TRIPLANAR >>
+   // world inverse transpose matrix for generation of correctly scaled world-space normals
    mWorldInvTposeSC = shader->getShaderConstHandle(ShaderGenVars::worldInvTpose);
    // GUY <<
    mDiffuseColorSC = shader->getShaderConstHandle("$diffuseMaterialColor");
@@ -384,7 +385,7 @@ void ProcessedShaderMaterial::_determineFeatures(  U32 stageNum,
    }
 
    // GUY TRIPLANAR
-   if (mMaterial->mTriplanar)
+   if (mMaterial->mTriplanar[stageNum])
       fd.features.addFeature(MFT_Triplanar);
    // GUY <<
 

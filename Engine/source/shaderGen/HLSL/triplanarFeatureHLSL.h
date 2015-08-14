@@ -36,9 +36,26 @@ public:
    void addBlendWeights(Vector<ShaderComponent*> &componentList, MultiLine *meta);
    void addUvs(Vector<ShaderComponent*> &componentList, MultiLine *meta);
 
+   // tri planar uvs
+   static Var* get_uvX(Vector<ShaderComponent*> &componentList, MultiLine *meta);
+   static Var* get_uvY(Vector<ShaderComponent*> &componentList, MultiLine *meta);
+   static Var* get_uvZ(Vector<ShaderComponent*> &componentList, MultiLine *meta);
+   static Var* get_blendWeights(Vector<ShaderComponent*> &componentList, MultiLine *meta);
+   
+   // bump map lookup and blend
+   static LangElement* getBumpOp(Vector<ShaderComponent*> &componentList, MultiLine *meta, Var* bumpMap);
+
    virtual String getName()
    {
       return "Triplanar Mapping";
+   }
+
+   virtual Resources getResources(const MaterialFeatureData &fd)
+   {
+      Resources res;
+      res.numTex = 0;
+      res.numTexReg = 3;
+      return res;
    }
 };
 

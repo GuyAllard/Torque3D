@@ -30,6 +30,10 @@
 #include "materials/materialFeatureTypes.h"
 #include "shaderGen/shaderGenVars.h"
 
+// GUY TRIPLANAR >>
+#include "shaderGen/HLSL/triplanarFeatureHLSL.h"
+// GUY <<
+
 
 void BumpFeatHLSL::processVert(  Vector<ShaderComponent*> &componentList, 
                                  const MaterialFeatureData &fd )
@@ -136,6 +140,13 @@ void BumpFeatHLSL::processPix(   Vector<ShaderComponent*> &componentList,
          texOp = new GenOp( "tex2D(@, @)", bumpMap, texCoord );
       }
    }
+   // GUY TRIPLANAR >>
+   else if (fd.features[MFT_Triplanar])
+   {
+      meta->addStatement(new GenOp("   // Triplanar bump\r\n"));
+      texOp = TriplanarFeatureHLSL::getBumpOp(componentList, meta, bumpMap);
+   }
+   // GUY <<
    else
    {
       texOp = new GenOp( "tex2D(@, @)", bumpMap, texCoord );

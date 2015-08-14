@@ -554,7 +554,8 @@ void ProcessedPrePassMaterial::_determineFeatures( U32 stageNum,
                   type == MFT_InterlacedPrePass ||
                   type == MFT_Visibility ||
                   type == MFT_UseInstancing ||
-                  type == MFT_DiffuseVertColor )
+                  type == MFT_DiffuseVertColor 
+                  /* GUY TRIPLANAR >> */ || type == MFT_Triplanar /* GUY << */)
          newFeatures.addFeature( type );
 
       // Add any transform features.

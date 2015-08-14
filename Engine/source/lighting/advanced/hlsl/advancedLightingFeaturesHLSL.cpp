@@ -31,6 +31,10 @@
 #include "materials/processedMaterial.h"
 #include "materials/materialFeatureTypes.h"
 
+// GUY TRIPLANAR >>
+#include "shaderGen/HLSL/triplanarFeatureHLSL.h"
+// GUY <<
+
 
 void DeferredRTLightingFeatHLSL::processPixMacros( Vector<GFXShaderMacro> &macros, 
                                                    const MaterialFeatureData &fd  )
@@ -272,8 +276,21 @@ void DeferredBumpFeatHLSL::processPix( Vector<ShaderComponent*> &componentList,
 
       // create texture var
       Var *bumpMap = getNormalMapTex();
-      Var *texCoord = getInTexCoord( "texCoord", "float2", true, componentList );
-      LangElement *texOp = new GenOp( "tex2D(@, @)", bumpMap, texCoord );
+
+      Var *texCoord = getInTexCoord("texCoord", "float2", true, componentList);
+      LangElement *texOp;
+      
+      // GUY TRIPLANAR >>
+      if (fd.features[MFT_Triplanar])
+      {
+         // blended lookups
+         texOp = TriplanarFeatureHLSL::getBumpOp(componentList, meta, bumpMap);
+      }
+      else
+      {
+         texOp = new GenOp("tex2D(@, @)", bumpMap, texCoord);
+      }
+      // GUY <<
 
       // create bump normal
       Var *bumpNorm = new Var;
@@ -402,7 +419,19 @@ void DeferredBumpFeatHLSL::processPix( Vector<ShaderComponent*> &componentList,
          bumpSample->setName( "bumpSample" );
          LangElement *bumpSampleDecl = new DecOp( bumpSample );
 
-         output = new GenOp( "   @ = tex2D(@, @);\r\n", bumpSampleDecl, bumpMap, texCoord );
+         // GUY TRIPLANAR >>
+         if (fd.features[MFT_Triplanar])
+         {
+            MultiLine *meta = new MultiLine;
+            output = meta;
+            LangElement *bumpOp = TriplanarFeatureHLSL::getBumpOp(componentList, meta, bumpMap);
+            meta->addStatement( new GenOp("   @ = @;\r\n", bumpSampleDecl, bumpOp));
+         }
+         else
+         {
+            output = new GenOp("   @ = tex2D(@, @);\r\n", bumpSampleDecl, bumpMap, texCoord);
+         }
+         // GUY <<
          return;
       }
    }
