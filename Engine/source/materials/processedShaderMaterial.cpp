@@ -52,6 +52,7 @@ void ShaderConstHandles::init( GFXShader *shader, CustomMaterial* mat /*=NULL*/ 
    // GUY TRIPLANAR >>
    // world inverse transpose matrix for generation of correctly scaled world-space normals
    mWorldInvTposeSC = shader->getShaderConstHandle(ShaderGenVars::worldInvTpose);
+   mTriplanarScaleSC = shader->getShaderConstHandle("$triplanarScale");
    // GUY <<
    mDiffuseColorSC = shader->getShaderConstHandle("$diffuseMaterialColor");
    mTexMatSC = shader->getShaderConstHandle(ShaderGenVars::texMat);
@@ -1190,6 +1191,11 @@ void ProcessedShaderMaterial::_setShaderConstants(SceneRenderState * state, cons
          0.0f, 0.0f ); // TODO: Wrap mode flags?
       shaderConsts->setSafe(handles->mBumpAtlasTileSC, atlasTileParams);
    }
+
+   // GUY TRIPLANAR >>
+   if ( handles->mTriplanarScaleSC->isValid() )
+      shaderConsts->set( handles->mTriplanarScaleSC, mMaterial->mTriplanarScale[stageNum]);
+   // GUY <<
    
    if( handles->mAccuScaleSC->isValid() )
       shaderConsts->set( handles->mAccuScaleSC, mMaterial->mAccuScale[stageNum] );

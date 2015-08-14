@@ -130,6 +130,7 @@ Material::Material()
 
       // GUY TRIPLANAR >>
       mTriplanar[i] = false;
+      mTriplanarScale[i] = 1.f;
       // GUY <<
 	  
       mParallaxScale[i] = 0.0f;
@@ -284,6 +285,9 @@ void Material::initPersistFields()
       // GUY TRIPLANAR >>
       addField("triplanar", TYPEID<bool>(), Offset(mTriplanar, Material), MAX_STAGES,
          "Use tri-planar mapping.");
+
+      addField("triplanarScale", TypeF32, Offset(mTriplanarScale, Material), MAX_STAGES,
+         "Texture scale factor for triplanar mapping");
       // GUY <<
 
       addField( "specularMap", TypeImageFilename, Offset(mSpecularMapFilename, Material), MAX_STAGES,

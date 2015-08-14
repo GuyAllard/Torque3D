@@ -134,8 +134,19 @@ void TriplanarFeatureHLSL::addUvs(Vector<ShaderComponent*> &componentList, Multi
       outTri_v->mapsToSampler = true;
    }
 
+   Var *triplanarScale = (Var*)LangElement::find("triplanarScale");
+   if (!triplanarScale)
+   {
+      triplanarScale = new Var;
+      triplanarScale->setType("float");
+      triplanarScale->setName("triplanarScale");
+      triplanarScale->uniform = true;
+      triplanarScale->constSortPos = cspPass;
+   }
+
    //worldSpaceTriplanarUVs(wsPosition, wsNormal, Out.tri_u, Out.tri_v);
-   meta->addStatement(new GenOp("   worldSpaceTriplanarUVs(@, @, @, @);\r\n", wsPosition, worldNormal, outTri_u, outTri_v));
+   meta->addStatement(new GenOp("   worldSpaceTriplanarUVs(@, @, @, @, @);\r\n", 
+                                    wsPosition, worldNormal, triplanarScale, outTri_u, outTri_v));
 }
 
 Var* TriplanarFeatureHLSL::get_uvX(Vector<ShaderComponent*> &componentList, MultiLine *meta)

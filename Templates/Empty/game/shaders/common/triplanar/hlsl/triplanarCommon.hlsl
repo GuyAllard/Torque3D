@@ -2,15 +2,15 @@
 #define _TRIPLANAR_COMMON_HLSL_
 
 // triplanar UV cordinates from world space position and world space normal
-void worldSpaceTriplanarUVs(float3 position, float3 normal, out float3 u, out float3 v)
+void worldSpaceTriplanarUVs(float3 position, float3 normal, float scale, out float3 u, out float3 v)
 {
     float2 uvX;
     float2 uvY;
     float2 uvZ;
     
-    uvX = position.yz;
-    uvY = position.xz;
-    uvZ = position.xy;
+    uvX = position.yz / scale;
+    uvY = position.xz / scale;
+    uvZ = position.xy / scale;
     
     // rotate uv coords around +z axis
     uvX.x *= sign(normal.x);
