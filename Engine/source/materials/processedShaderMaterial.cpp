@@ -1237,11 +1237,9 @@ void ProcessedShaderMaterial::setTransforms(const MatrixSet &matrixSet, SceneRen
       shaderConsts->set( handles->mViewProjSC, matrixSet.getWorldToScreen() );
 
    // GUY TRIPLANAR >>
-   // We need the worldInverseTranspose matrix to ensure that world-space normals are
-   // not distorted by non-uniform object scaling.
-   // NOTE - Is this the best place to set it up? Should the matrix be added to MatrixSet for lazy eval?
-   //        Should probably only include this matrix as part of a triplanar feature
-   if (handles->mWorldInvTposeSC->isValid())
+   // Triplanar mapping requires the worldInverseTranspose matrix to ensure that 
+   // world-space normals are not distorted by non-uniform object scaling.
+   if (handles->mWorldInvTposeSC->isValid() && mMaterial->mTriplanar[pass])
    {
       MatrixF objToWorld = matrixSet.getObjectToWorld();
       shaderConsts->set(handles->mWorldInvTposeSC, objToWorld.transpose().inverse());
