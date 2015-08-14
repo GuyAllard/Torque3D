@@ -283,8 +283,9 @@ void DeferredBumpFeatHLSL::processPix( Vector<ShaderComponent*> &componentList,
       // GUY TRIPLANAR >>
       if (fd.features[MFT_Triplanar])
       {
+         meta->addStatement(new GenOp("   // Triplanar bump\r\n"));
          // blended lookups
-         texOp = TriplanarFeatureHLSL::getBumpOp(componentList, meta, bumpMap);
+         texOp = TriplanarFeatureHLSL::getSamplerOp(componentList, meta, bumpMap);
       }
       else
       {
@@ -424,7 +425,7 @@ void DeferredBumpFeatHLSL::processPix( Vector<ShaderComponent*> &componentList,
          {
             MultiLine *meta = new MultiLine;
             output = meta;
-            LangElement *bumpOp = TriplanarFeatureHLSL::getBumpOp(componentList, meta, bumpMap);
+            LangElement *bumpOp = TriplanarFeatureHLSL::getSamplerOp(componentList, meta, bumpMap);
             meta->addStatement( new GenOp("   @ = @;\r\n", bumpSampleDecl, bumpOp));
          }
          else

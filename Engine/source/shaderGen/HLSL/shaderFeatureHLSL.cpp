@@ -865,17 +865,7 @@ void DiffuseMapFeatHLSL::processPix(   Vector<ShaderComponent*> &componentList,
       output = meta;
 
       meta->addStatement(new GenOp("   // Triplanar diffuse\r\n"));
-
-      Var *inBlendWeights = getInTexCoord("blendWeights", "float3", true, componentList);
-      Var *uvX = TriplanarFeatureHLSL::get_uvX(componentList, meta);
-      Var *uvY = TriplanarFeatureHLSL::get_uvY(componentList, meta);
-      Var *uvZ = TriplanarFeatureHLSL::get_uvZ(componentList, meta);
-      
-      LangElement *statement = new GenOp("tex2D(@, @) * @.x + tex2D(@, @) * @.y + tex2D(@, @) * @.z", 
-                                         diffuseMap, uvX, inBlendWeights,
-                                         diffuseMap, uvY, inBlendWeights,
-                                         diffuseMap, uvZ, inBlendWeights);
-
+      LangElement *statement = TriplanarFeatureHLSL::getSamplerOp(componentList, meta, diffuseMap);
       meta->addStatement( new GenOp("   @;\r\n", assignColor(statement, Material::Mul)));
 
       // uncomment this to debug the blend weights

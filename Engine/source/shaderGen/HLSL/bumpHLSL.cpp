@@ -144,7 +144,7 @@ void BumpFeatHLSL::processPix(   Vector<ShaderComponent*> &componentList,
    else if (fd.features[MFT_Triplanar])
    {
       meta->addStatement(new GenOp("   // Triplanar bump\r\n"));
-      texOp = TriplanarFeatureHLSL::getBumpOp(componentList, meta, bumpMap);
+      texOp = TriplanarFeatureHLSL::getSamplerOp(componentList, meta, bumpMap);
    }
    // GUY <<
    else

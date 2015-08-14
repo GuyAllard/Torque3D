@@ -199,15 +199,15 @@ Var* TriplanarFeatureHLSL::get_blendWeights(Vector<ShaderComponent*> &componentL
    return inBlendWeights;
 }
 
-LangElement* TriplanarFeatureHLSL::getBumpOp(Vector<ShaderComponent*> &componentList, MultiLine *meta, Var *bumpMap)
+LangElement* TriplanarFeatureHLSL::getSamplerOp(Vector<ShaderComponent*> &componentList, MultiLine *meta, Var *sampler)
 {
    Var *blendWeights = get_blendWeights(componentList, meta);
    Var *uvX = get_uvX(componentList, meta);
    Var *uvY = get_uvY(componentList, meta);
    Var *uvZ = get_uvZ(componentList, meta);
 
-   return new GenOp("tex2D(@, @) * @.x + tex2D(@, @) * @.y + tex2D(@, @) * @.z",
-                        bumpMap, uvX, blendWeights,
-                        bumpMap, uvY, blendWeights,
-                        bumpMap, uvZ, blendWeights);
+   return new GenOp("(tex2D(@, @) * @.x + tex2D(@, @) * @.y + tex2D(@, @) * @.z)",
+                        sampler, uvX, blendWeights,
+                        sampler, uvY, blendWeights,
+                        sampler, uvZ, blendWeights);
 }

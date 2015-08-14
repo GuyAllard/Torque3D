@@ -42,8 +42,8 @@ public:
    static Var* get_uvZ(Vector<ShaderComponent*> &componentList, MultiLine *meta);
    static Var* get_blendWeights(Vector<ShaderComponent*> &componentList, MultiLine *meta);
    
-   // bump map lookup and blend
-   static LangElement* getBumpOp(Vector<ShaderComponent*> &componentList, MultiLine *meta, Var* bumpMap);
+   // sampler lookup and blend
+   static LangElement* getSamplerOp(Vector<ShaderComponent*> &componentList, MultiLine *meta, Var* sampler);
 
    virtual String getName()
    {
