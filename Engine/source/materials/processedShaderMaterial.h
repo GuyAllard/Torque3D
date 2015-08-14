@@ -43,6 +43,7 @@ class ShaderConstHandles
 public:
    // GUY TRIPLANAR >>
    GFXShaderConstHandle* mWorldInvTposeSC;
+   GFXShaderConstHandle* mTriplanarTightnessSC;
    GFXShaderConstHandle* mTriplanarScaleSC;
    // GUY <<
    GFXShaderConstHandle* mDiffuseColorSC;

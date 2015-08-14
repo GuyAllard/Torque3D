@@ -73,8 +73,18 @@ void TriplanarFeatureHLSL::addBlendWeights(Vector<ShaderComponent*> &componentLi
       outBlendWeights->setType("float3");
       outBlendWeights->mapsToSampler = false;
    }
+
+   Var *triplanarTightness = (Var*)LangElement::find("triplanarTightness");
+   if (!triplanarTightness)
+   {
+      triplanarTightness = new Var;
+      triplanarTightness->setType("float");
+      triplanarTightness->setName("triplanarTightness");
+      triplanarTightness->uniform = true;
+      triplanarTightness->constSortPos = cspPass;
+   }
    //Out.blendWeights = triBlendWeights(wsNormal, 3);
-   meta->addStatement(new GenOp("   @ = triBlendWeights(@, 3);\r\n", outBlendWeights, worldNormal));
+   meta->addStatement(new GenOp("   @ = triBlendWeights(@, @);\r\n", outBlendWeights, worldNormal, triplanarTightness));
 }
 
 void TriplanarFeatureHLSL::addUvs(Vector<ShaderComponent*> &componentList, MultiLine *meta)

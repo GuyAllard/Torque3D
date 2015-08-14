@@ -130,6 +130,7 @@ Material::Material()
 
       // GUY TRIPLANAR >>
       mTriplanar[i] = false;
+      mTriplanarTightness[i] = 3.f;
       mTriplanarScale[i] = 1.f;
       // GUY <<
 	  
@@ -286,8 +287,11 @@ void Material::initPersistFields()
       addField("triplanar", TYPEID<bool>(), Offset(mTriplanar, Material), MAX_STAGES,
          "Use tri-planar mapping.");
 
+      addField("triplanarTightness", TypeF32, Offset(mTriplanarTightness, Material), MAX_STAGES,
+         "Tightness factor for the triplanar blend weights.");
+
       addField("triplanarScale", TypeF32, Offset(mTriplanarScale, Material), MAX_STAGES,
-         "Texture scale factor for triplanar mapping");
+         "Texture scale factor for triplanar mapping.");
       // GUY <<
 
       addField( "specularMap", TypeImageFilename, Offset(mSpecularMapFilename, Material), MAX_STAGES,

@@ -982,6 +982,10 @@ function MaterialEditorGui::guiSync( %this, %material )
    
    // Triplanar mapping
    MaterialEditorPropertiesWindow-->triplanarCheckbox.setValue((%material).triplanar[%layer]);
+   MaterialEditorPropertiesWindow-->triplanarTightnessSlider.setValue((%material).triplanarTightness[%layer]);
+   MaterialEditorPropertiesWindow-->triplanarTightnessTextEdit.setValue((%material).triplanarTightness[%layer]);
+   MaterialEditorPropertiesWindow-->triplanarScaleSlider.setValue((%material).triplanarScale[%layer]);
+   MaterialEditorPropertiesWindow-->triplanarScaleTextEdit.setValue((%material).triplanarScale[%layer]);
    
    %this.preventUndo = false;
 }

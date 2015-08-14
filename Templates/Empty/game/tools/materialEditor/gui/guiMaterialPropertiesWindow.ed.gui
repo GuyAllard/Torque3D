@@ -1599,7 +1599,7 @@
                               Command = "MaterialEditorGui.updateActiveMaterial(\"triplanarScale[\" @ MaterialEditorGui.currentLayer @ \"]\", $ThisControl.getValue(), true, true);";
                               AltCommand = "$ThisControl.getParent().updateFromChild($ThisControl); MaterialEditorGui.updateActiveMaterial(\"triplanarScale[\" @ MaterialEditorGui.currentLayer @ \"]\", $ThisControl.getValue(), true, false);";
                               tooltipprofile = "GuiDefaultProfile";
-                              ToolTip = "Sets the scale of the accu map.";
+                              ToolTip = "Sets the scale of the triplanar texture maps.";
                               hovertime = "1000";
                               range = "0.01 10";
                               ticks = "0";
@@ -1619,6 +1619,87 @@
                               canSave = "1";
                               Visible = "1";
                               Command = "$ThisControl.getParent().updateFromChild($ThisControl); MaterialEditorGui.updateActiveMaterial(\"triplanarScale[\" @ MaterialEditorGui.currentLayer @ \"]\", $ThisControl.getValue());";
+                              hovertime = "1000";
+                              AnchorTop = "1";
+                              AnchorBottom = "0";
+                              AnchorLeft = "1";
+                              AnchorRight = "0";
+                              text = "1";
+                              maxLength = "3";
+                           };
+                        };
+                     };
+                     new GuiContainer(){ // tightness
+                        profile="GuiTransparentProfile";
+                        isContainer = "1";
+                        position = "0 0";
+                        Extent = "195 24";
+                        HorizSizing = "width";
+                        
+                        new GuiTextCtrl() {
+                           canSaveDynamicFields = "0";
+                           Enabled = "1";
+                           isContainer = "0";
+                           Profile = "GuiTextRightProfile";
+                           HorizSizing = "right";
+                           VertSizing = "bottom";
+                           position = "8 3";
+                           Extent = "54 16";
+                           MinExtent = "8 2";
+                           canSave = "1";
+                           Visible = "1";
+                           hovertime = "1000";
+                           Margin = "0 0 0 0";
+                           Padding = "0 0 0 0";
+                           AnchorTop = "1";
+                           AnchorBottom = "0";
+                           AnchorLeft = "1";
+                           AnchorRight = "0";
+                           text = "Tightness";
+                           maxLength = "1024";
+                        };
+
+								new GuiControl() {
+                           class = "AggregateControl";
+                           position = "70 3";
+                           Extent = "96 20";
+                           
+                           new GuiSliderCtrl() {
+                              canSaveDynamicFields = "0";
+                              internalName = "triplanarTightnessSlider";
+                              Enabled = "1";
+                              isContainer = "0";
+                              Profile = "GuiSliderProfile";
+                              HorizSizing = "right";
+                              VertSizing = "bottom";
+                              position = "0 2";
+                              Extent = "61 14";
+                              MinExtent = "8 2";
+                              canSave = "1";
+                              Visible = "1";
+                              Command = "MaterialEditorGui.updateActiveMaterial(\"triplanarTightness[\" @ MaterialEditorGui.currentLayer @ \"]\", $ThisControl.getValue(), true, true);";
+                              AltCommand = "$ThisControl.getParent().updateFromChild($ThisControl); MaterialEditorGui.updateActiveMaterial(\"triplanarTightness[\" @ MaterialEditorGui.currentLayer @ \"]\", $ThisControl.getValue(), true, false);";
+                              tooltipprofile = "GuiDefaultProfile";
+                              ToolTip = "Sets the tightness of the projection mapping.";
+                              hovertime = "1000";
+                              range = "0 6";
+                              ticks = "0";
+                              value = "1";
+                           };
+                           new GuiTextEditCtrl() {
+                              canSaveDynamicFields = "0";
+                              internalName = "triplanarTightnessTextEdit";
+                              Enabled = "1";
+                              isContainer = "0";
+                              Profile = "GuiTextEditProfile";
+                              HorizSizing = "right";
+                              VertSizing = "bottom";
+                              position = "64 0";
+                              Extent = "29 18";
+                              MinExtent = "8 2";
+                              canSave = "1";
+                              Visible = "1";
+                              Command = "$ThisControl.getParent().updateFromChild($ThisControl); MaterialEditorGui.updateActiveMaterial(\"triplanarTightness[\" @ MaterialEditorGui.currentLayer @ \"]\", $ThisControl.getValue());";
                               hovertime = "1000";
                               AnchorTop = "1";
                               AnchorBottom = "0";
