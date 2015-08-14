@@ -386,7 +386,11 @@ void ProcessedShaderMaterial::_determineFeatures(  U32 stageNum,
 
    // GUY TRIPLANAR
    if (mMaterial->mTriplanar[stageNum])
+   {
       fd.features.addFeature(MFT_Triplanar);
+      // not compatible with instancing :(
+      fd.features.removeFeature(MFT_UseInstancing);
+   }
    // GUY <<
 
    // Grab other features like normal maps, base texture, etc.
