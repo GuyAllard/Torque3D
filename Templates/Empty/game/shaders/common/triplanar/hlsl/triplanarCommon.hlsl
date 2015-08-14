@@ -23,7 +23,6 @@ void worldSpaceTriplanarUVs(float3 position, float3 normal, out float3 u, out fl
 // triplanar blending weights from world space normal
 float3 triBlendWeights(float3 normal, float tightness)
 {
-    //float3 weights = wsNormal*wsNormal;
     float3 weights = pow(abs(normal), tightness);
     weights = max(weights, 0);
     weights /= (weights.x + weights.y + weights.z).xxx;
