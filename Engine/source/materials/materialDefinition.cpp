@@ -292,6 +292,12 @@ void Material::initPersistFields()
 
       addField("triplanarScale", TypeF32, Offset(mTriplanarScale, Material), MAX_STAGES,
          "Texture scale factor for triplanar mapping.");
+
+      addField("triplanarDiffuseZMap", TypeImageFilename, Offset(mTriplanarDiffuseMapZFilename, Material), MAX_STAGES,
+         "The diffuse texture map applied to the z-normal triplanar projection.");
+
+      addField("triplanarBumpZMap", TypeImageFilename, Offset(mTriplanarBumpMapZFilename, Material), MAX_STAGES,
+         "The normal map texture applied to the z-normal triplanar projection.");
       // GUY <<
 
       addField( "specularMap", TypeImageFilename, Offset(mSpecularMapFilename, Material), MAX_STAGES,

@@ -865,11 +865,11 @@ void DiffuseMapFeatHLSL::processPix(   Vector<ShaderComponent*> &componentList,
       output = meta;
 
       meta->addStatement(new GenOp("   // Triplanar diffuse\r\n"));
-      LangElement *statement = TriplanarFeatureHLSL::getSamplerOp(componentList, meta, diffuseMap);
+      LangElement *statement = TriplanarFeatureHLSL::getDiffuseOp(componentList, meta, fd);
       meta->addStatement( new GenOp("   @;\r\n", assignColor(statement, Material::Mul)));
 
       // uncomment this to debug the blend weights
-      //statement = new GenOp("float4(@, 1);\r\n", inBlendWeights);
+      //statement = new GenOp("float4(IN.blendWeights, 1);\r\n");
       //meta->addStatement(new GenOp("   @;\r\n", assignColor(statement, Material::Mul)));
    }
    else /* GUY << */if (  fd.features[MFT_CubeMap] )
@@ -994,6 +994,11 @@ ShaderFeature::Resources DiffuseMapFeatHLSL::getResources( const MaterialFeature
    res.numTex = 1;
    res.numTexReg = 1;
 
+   // GUY TRIPLANAR >>
+   if (fd.features[MFT_TriplanarDiffuseMapZ])
+      res.numTex++;
+   // GUY <<
+
    return res;
 }
 
@@ -1008,6 +1013,15 @@ void DiffuseMapFeatHLSL::setTexData(   Material::StageData &stageDat,
       passData.mSamplerNames[ texIndex ] = "diffuseMap";
       passData.mTexSlot[ texIndex++ ].texObject = tex;
    }
+
+   // GUY TRIPLANAR
+   tex = stageDat.getTex(MFT_TriplanarDiffuseMapZ);
+   if (tex)
+   {
+      passData.mSamplerNames[texIndex] = "diffuseMapZ";
+      passData.mTexSlot[texIndex++].texObject = tex;
+   }
+   // GUY <<
 }
 
 

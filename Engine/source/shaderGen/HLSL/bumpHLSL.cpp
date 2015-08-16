@@ -144,7 +144,7 @@ void BumpFeatHLSL::processPix(   Vector<ShaderComponent*> &componentList,
    else if (fd.features[MFT_Triplanar])
    {
       meta->addStatement(new GenOp("   // Triplanar bump\r\n"));
-      texOp = TriplanarFeatureHLSL::getSamplerOp(componentList, meta, bumpMap);
+      texOp = TriplanarFeatureHLSL::getBumpOp(componentList, meta, fd);
    }
    // GUY <<
    else
@@ -217,6 +217,11 @@ ShaderFeature::Resources BumpFeatHLSL::getResources( const MaterialFeatureData &
          res.numTexReg++;
    }
 
+   // GUY TRIPLANAR >>
+   if (fd.features[MFT_TriplanarBumpMapZ])
+      res.numTex++;
+   // GUY TRIPLANAR
+
    return res;
 }
 
@@ -235,6 +240,15 @@ void BumpFeatHLSL::setTexData(   Material::StageData &stageDat,
       passData.mTexType[ texIndex ] = Material::Bump;
       passData.mSamplerNames[ texIndex ] = "bumpMap";
       passData.mTexSlot[ texIndex++ ].texObject = stageDat.getTex( MFT_NormalMap );
+
+      // GUY TRIPLANAR >>
+      if (fd.features[MFT_TriplanarBumpMapZ])
+      {
+         passData.mTexType[texIndex] = Material::Bump;
+         passData.mSamplerNames[texIndex] = "bumpMapZ";
+         passData.mTexSlot[texIndex++].texObject = stageDat.getTex(MFT_TriplanarBumpMapZ);
+      }
+      // GUY <<
    }
 
    if ( fd.features[ MFT_DetailNormalMap ] )

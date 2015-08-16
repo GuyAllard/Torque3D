@@ -19,6 +19,9 @@
 #ifndef _MATERIALFEATUREDATA_H_
 #include "materials/materialFeatureData.h"
 #endif
+#ifndef _PROCESSEDMATERIAL_H_
+#include "materials/processedMaterial.h"
+#endif
 
 class TriplanarFeatureHLSL : public ShaderFeatureHLSL
 {
@@ -43,7 +46,8 @@ public:
    static Var* get_blendWeights(Vector<ShaderComponent*> &componentList, MultiLine *meta);
    
    // sampler lookup and blend
-   static LangElement* getSamplerOp(Vector<ShaderComponent*> &componentList, MultiLine *meta, Var* sampler);
+   static LangElement* getDiffuseOp(Vector<ShaderComponent*> &componentList, MultiLine *meta, const MaterialFeatureData &fd);
+   static LangElement* getBumpOp(Vector<ShaderComponent*> &componentList, MultiLine *meta, const MaterialFeatureData &fd);
 
    virtual String getName()
    {
@@ -53,10 +57,23 @@ public:
    virtual Resources getResources(const MaterialFeatureData &fd)
    {
       Resources res;
-      res.numTex = 0;
-      res.numTexReg = 3;
+
+      res.numTex = 0;    // no textures
+      res.numTexReg = 3; // 3 registers: blendWeights, tri_u, tri_v
+
       return res;
    }
 };
 
+class TriplanarDiffuseMapZFeatureHLSL : public ShaderFeatureHLSL
+{
+public:
+   virtual String getName() { return "Triplanar Diffuse Z"; }
+};
+
+class TriplanarBumpMapZFeatureHLSL : public ShaderFeatureHLSL
+{
+public:
+   virtual String getName() { return "Triplanar Bump Z"; }
+};
 #endif

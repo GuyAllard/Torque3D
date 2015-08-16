@@ -463,6 +463,21 @@ void ProcessedMaterial::_setStageData()
          if(!mStages[i].getTex( MFT_EnvMap ))
             mMaterial->logError("Failed to load environment map %s for stage %i", _getTexturePath(mMaterial->mEnvMapFilename[i]).c_str(), i);
       }
+
+      // Triplanar Z diffuse map
+      if (mMaterial->mTriplanarDiffuseMapZFilename[i].isNotEmpty())
+      {
+         mStages[i].setTex(MFT_TriplanarDiffuseMapZ, _createTexture(mMaterial->mTriplanarDiffuseMapZFilename[i], &GFXDefaultStaticDiffuseProfile));
+         if (!mStages[i].getTex(MFT_TriplanarDiffuseMapZ))
+            mMaterial->logError("Failed to load triplanar diffuse map %s for stage %i", _getTexturePath(mMaterial->mTriplanarDiffuseMapZFilename[i]).c_str(), i);
+      }
+      // Triplanar Z normal map
+      if (mMaterial->mTriplanarBumpMapZFilename[i].isNotEmpty())
+      {
+         mStages[i].setTex(MFT_TriplanarBumpMapZ, _createTexture(mMaterial->mTriplanarBumpMapZFilename[i], &GFXDefaultStaticDiffuseProfile));
+         if (!mStages[i].getTex(MFT_TriplanarBumpMapZ))
+            mMaterial->logError("Failed to load triplanar normal map %s for stage %i", _getTexturePath(mMaterial->mTriplanarBumpMapZFilename[i]).c_str(), i);
+      }
    }
 
 	mMaterial->mCubemapData = dynamic_cast<CubemapData*>(Sim::findObject( mMaterial->mCubemapName ));

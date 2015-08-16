@@ -285,7 +285,7 @@ void DeferredBumpFeatHLSL::processPix( Vector<ShaderComponent*> &componentList,
       {
          meta->addStatement(new GenOp("   // Triplanar bump\r\n"));
          // blended lookups
-         texOp = TriplanarFeatureHLSL::getSamplerOp(componentList, meta, bumpMap);
+         texOp = TriplanarFeatureHLSL::getBumpOp(componentList, meta, fd);
       }
       else
       {
@@ -425,7 +425,7 @@ void DeferredBumpFeatHLSL::processPix( Vector<ShaderComponent*> &componentList,
          {
             MultiLine *meta = new MultiLine;
             output = meta;
-            LangElement *bumpOp = TriplanarFeatureHLSL::getSamplerOp(componentList, meta, bumpMap);
+            LangElement *bumpOp = TriplanarFeatureHLSL::getBumpOp(componentList, meta, fd);
             meta->addStatement( new GenOp("   @ = @;\r\n", bumpSampleDecl, bumpOp));
          }
          else
@@ -461,6 +461,11 @@ ShaderFeature::Resources DeferredBumpFeatHLSL::getResources( const MaterialFeatu
          if ( !fd.features.hasFeature( MFT_DetailMap ) )
             res.numTexReg += 1;
       }
+
+      // GUY TRIPLANAR >>
+      if (fd.features[MFT_PrePassConditioner] && fd.features[MFT_TriplanarBumpMapZ])
+         res.numTex++;
+      // GUY <<
    }
 
    return res;
@@ -507,6 +512,15 @@ void DeferredBumpFeatHLSL::setTexData( Material::StageData &stageDat,
          passData.mSamplerNames[ texIndex ] = "detailBumpMap";
          passData.mTexSlot[ texIndex++ ].texObject = stageDat.getTex( MFT_DetailNormalMap );
       }
+
+      // GUY TRIPLANAR >>
+      if ( fd.features[MFT_TriplanarBumpMapZ] )
+      {
+         passData.mTexType[texIndex] = Material::Bump;
+         passData.mSamplerNames[texIndex] = "bumpMapZ";
+         passData.mTexSlot[texIndex++].texObject = stageDat.getTex(MFT_TriplanarBumpMapZ);
+      }
+      // GUY <<
    }
 }
 

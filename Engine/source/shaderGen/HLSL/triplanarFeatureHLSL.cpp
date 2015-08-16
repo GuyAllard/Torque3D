@@ -220,15 +220,88 @@ Var* TriplanarFeatureHLSL::get_blendWeights(Vector<ShaderComponent*> &componentL
    return inBlendWeights;
 }
 
-LangElement* TriplanarFeatureHLSL::getSamplerOp(Vector<ShaderComponent*> &componentList, MultiLine *meta, Var *sampler)
+LangElement* TriplanarFeatureHLSL::getDiffuseOp(Vector<ShaderComponent*> &componentList, MultiLine *meta, const MaterialFeatureData &fd)
 {
    Var *blendWeights = get_blendWeights(componentList, meta);
    Var *uvX = get_uvX(componentList, meta);
    Var *uvY = get_uvY(componentList, meta);
    Var *uvZ = get_uvZ(componentList, meta);
 
-   return new GenOp("(tex2D(@, @) * @.x + tex2D(@, @) * @.y + tex2D(@, @) * @.z)",
-                        sampler, uvX, blendWeights,
-                        sampler, uvY, blendWeights,
-                        sampler, uvZ, blendWeights);
+   Var *diffuseMap = (Var*)LangElement::find("diffuseMap");
+   if (!diffuseMap)
+   {
+      diffuseMap = new Var;
+      diffuseMap->setType("sampler2D");
+      diffuseMap->setName("diffuseMap");
+      diffuseMap->uniform = true;
+      diffuseMap->sampler = true;
+      diffuseMap->constNum = Var::getTexUnitNum();
+   }
+
+   Var *diffuseMapZ;
+   if (fd.features[MFT_TriplanarDiffuseMapZ])
+   {
+      diffuseMapZ = (Var*)LangElement::find("diffuseMapZ");
+      if (!diffuseMapZ)
+      {
+         diffuseMapZ = new Var;
+         diffuseMapZ->setType("sampler2D");
+         diffuseMapZ->setName("diffuseMapZ");
+         diffuseMapZ->uniform = true;
+         diffuseMapZ->sampler = true;
+         diffuseMapZ->constNum = Var::getTexUnitNum();
+      }
+   }
+   else
+   {
+      diffuseMapZ = diffuseMap;
+   }
+
+   return new GenOp("(tex2D(@, @) * @.xxxx + tex2D(@, @) * @.yyyy + tex2D(@, @) * @.zzzz)",
+                        diffuseMap, uvX, blendWeights,
+                        diffuseMap, uvY, blendWeights,
+                        diffuseMapZ, uvZ, blendWeights);
+}
+
+LangElement* TriplanarFeatureHLSL::getBumpOp(Vector<ShaderComponent*> &componentList, MultiLine *meta, const MaterialFeatureData &fd)
+{
+   Var *blendWeights = get_blendWeights(componentList, meta);
+   Var *uvX = get_uvX(componentList, meta);
+   Var *uvY = get_uvY(componentList, meta);
+   Var *uvZ = get_uvZ(componentList, meta);
+
+   Var *bumpMap = (Var*)LangElement::find("bumpMap");
+   if (!bumpMap)
+   {
+      bumpMap = new Var;
+      bumpMap->setType("sampler2D");
+      bumpMap->setName("bumpMap");
+      bumpMap->uniform = true;
+      bumpMap->sampler = true;
+      bumpMap->constNum = Var::getTexUnitNum();     // used as texture unit num here
+   }
+
+   Var *bumpMapZ;
+   if (fd.features[MFT_TriplanarBumpMapZ])
+   {
+      bumpMapZ = (Var*)LangElement::find("bumpMapZ");
+      if (!bumpMapZ)
+      {
+         bumpMapZ = new Var;
+         bumpMapZ->setType("sampler2D");
+         bumpMapZ->setName("bumpMapZ");
+         bumpMapZ->uniform = true;
+         bumpMapZ->sampler = true;
+         bumpMapZ->constNum = Var::getTexUnitNum();
+      }
+   }
+   else
+   {
+      bumpMapZ = bumpMap;
+   }
+
+   return new GenOp("(tex2D(@, @) * @.xxxx + tex2D(@, @) * @.yyyy + tex2D(@, @) * @.zzzz)",
+                     bumpMap, uvX, blendWeights,
+                     bumpMap, uvY, blendWeights,
+                     bumpMapZ, uvZ, blendWeights);
 }

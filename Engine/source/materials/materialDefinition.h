@@ -209,6 +209,8 @@ public:
    bool     mTriplanar[MAX_STAGES];
    F32      mTriplanarTightness[MAX_STAGES];
    F32      mTriplanarScale[MAX_STAGES];
+   FileName mTriplanarDiffuseMapZFilename[MAX_STAGES];
+   FileName mTriplanarBumpMapZFilename[MAX_STAGES];
    // GUY <<
    FileName mOverlayMapFilename[MAX_STAGES];
    FileName mLightMapFilename[MAX_STAGES];

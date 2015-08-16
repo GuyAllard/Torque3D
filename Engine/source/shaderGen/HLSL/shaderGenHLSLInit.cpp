@@ -72,6 +72,8 @@ void _initShaderGenHLSL( ShaderGen *shaderGen )
    FEATUREMGR->registerFeature( MFT_AccuMap, new AccuTexFeatHLSL );
    // GUY TRIPLANAR >>
    FEATUREMGR->registerFeature(MFT_Triplanar, new TriplanarFeatureHLSL);
+   FEATUREMGR->registerFeature(MFT_TriplanarDiffuseMapZ, new TriplanarDiffuseMapZFeatureHLSL);
+   FEATUREMGR->registerFeature(MFT_TriplanarBumpMapZ, new TriplanarBumpMapZFeatureHLSL);
    // GUY <<
    FEATUREMGR->registerFeature( MFT_GlossMap, new NamedFeatureHLSL( "Gloss Map" ) );
    FEATUREMGR->registerFeature( MFT_LightbufferMRT, new NamedFeatureHLSL( "Lightbuffer MRT" ) );

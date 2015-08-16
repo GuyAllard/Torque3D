@@ -987,6 +987,28 @@ function MaterialEditorGui::guiSync( %this, %material )
    MaterialEditorPropertiesWindow-->triplanarScaleSlider.setValue((%material).triplanarScale[%layer]);
    MaterialEditorPropertiesWindow-->triplanarScaleTextEdit.setValue((%material).triplanarScale[%layer]);
    
+   if((%material).triplanarDiffuseZMap[%layer] $= "") 
+   {
+      MaterialEditorPropertiesWindow-->triplanarDiffuseZMapNameText.setText( "None" );
+      MaterialEditorPropertiesWindow-->triplanarDiffuseZMapDisplayBitmap.setBitmap( "tools/materialeditor/gui/unknownImage" );
+   }
+   else
+   {
+      MaterialEditorPropertiesWindow-->triplanarDiffuseZMapNameText.setText( (%material).triplanarDiffuseZMap[%layer] );
+      MaterialEditorPropertiesWindow-->triplanarDiffuseZMapDisplayBitmap.setBitmap( (%material).triplanarDiffuseZMap[%layer] );
+   }
+   
+   if((%material).triplanarBumpZMap[%layer] $= "") 
+   {
+      MaterialEditorPropertiesWindow-->triplanarBumpZMapNameText.setText( "None" );
+      MaterialEditorPropertiesWindow-->triplanarBumpZMapDisplayBitmap.setBitmap( "tools/materialeditor/gui/unknownImage" );
+   }
+   else
+   {
+      MaterialEditorPropertiesWindow-->triplanarBumpZMapNameText.setText( (%material).triplanarBumpZMap[%layer] );
+      MaterialEditorPropertiesWindow-->triplanarBumpZMapDisplayBitmap.setBitmap( (%material).triplanarBumpZMap[%layer] );
+   }
+   
    %this.preventUndo = false;
 }
 
