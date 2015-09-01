@@ -70,7 +70,7 @@ void TriplanarFeatureHLSL::addBlendWeights(Vector<ShaderComponent*> &componentLi
       outBlendWeights = connectComp->getElement(RT_TEXCOORD);
       outBlendWeights->setName("blendWeights");
       outBlendWeights->setStructName("OUT");
-      outBlendWeights->setType("float3");
+      outBlendWeights->setType("float4");
       outBlendWeights->mapsToSampler = false;
    }
 
@@ -215,7 +215,7 @@ Var* TriplanarFeatureHLSL::get_uvZ(Vector<ShaderComponent*> &componentList, Mult
 
 Var* TriplanarFeatureHLSL::get_blendWeights(Vector<ShaderComponent*> &componentList, MultiLine *meta)
 {
-   Var *inBlendWeights = getInTexCoord("blendWeights", "float3", true, componentList);
+   Var *inBlendWeights = getInTexCoord("blendWeights", "float4", true, componentList);
    
    return inBlendWeights;
 }
