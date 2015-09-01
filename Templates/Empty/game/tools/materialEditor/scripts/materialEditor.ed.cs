@@ -986,6 +986,7 @@ function MaterialEditorGui::guiSync( %this, %material )
    MaterialEditorPropertiesWindow-->triplanarTightnessTextEdit.setValue((%material).triplanarTightness[%layer]);
    MaterialEditorPropertiesWindow-->triplanarScaleSlider.setValue((%material).triplanarScale[%layer]);
    MaterialEditorPropertiesWindow-->triplanarScaleTextEdit.setValue((%material).triplanarScale[%layer]);
+   MaterialEditorPropertiesWindow-->triplanarZUpCheckBox.setValue((%material).triplanarZUp[%layer]);
    
    if((%material).triplanarDiffuseZMap[%layer] $= "") 
    {
@@ -2304,5 +2305,11 @@ function MaterialEditorGui::updateAccuCheckbox(%this, %value)
 function MaterialEditorGui::updateTriplanarCheckbox(%this, %value)
 {
    MaterialEditorGui.updateActiveMaterial("triplanar[" @ MaterialEditorGui.currentLayer @ "]", %value);   
+   MaterialEditorGui.guiSync( materialEd_previewMaterial );
+}
+
+function MaterialEditorGui::updateTriplanarZUpCheckbox(%this, %value)
+{
+   MaterialEditorGui.updateActiveMaterial("triplanarZUp[" @ MaterialEditorGui.currentLayer @ "]", %value);   
    MaterialEditorGui.guiSync( materialEd_previewMaterial );
 }

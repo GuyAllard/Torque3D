@@ -392,7 +392,7 @@ void ProcessedShaderMaterial::_determineFeatures(  U32 stageNum,
       // enable triplanar mapping feature
       fd.features.addFeature(MFT_Triplanar);
       
-      // not compatible with instancing :(
+      // not compatible with instancing yet :(
       fd.features.removeFeature(MFT_UseInstancing);
 
       // diffuse map for z axis
@@ -402,6 +402,9 @@ void ProcessedShaderMaterial::_determineFeatures(  U32 stageNum,
       // normal map for z axis
       if (fd.features[MFT_NormalMap] && mStages[stageNum].getTex(MFT_TriplanarBumpMapZ))
          fd.features.addFeature(MFT_TriplanarBumpMapZ);
+
+      if (mMaterial->mTriplanarZUp[stageNum])
+         fd.features.addFeature(MFT_TriplanarZUp);
    }
    // GUY <<
 

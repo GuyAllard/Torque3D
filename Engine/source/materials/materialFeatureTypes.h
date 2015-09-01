@@ -106,6 +106,7 @@ DeclareFeatureType( MFT_AccuSpecular );
 DeclareFeatureType(MFT_Triplanar);
 DeclareFeatureType(MFT_TriplanarDiffuseMapZ);
 DeclareFeatureType(MFT_TriplanarBumpMapZ);
+DeclareFeatureType(MFT_TriplanarZUp);
 // GUY <<
 
 /// This feature enables vertex coloring for the diffuse channel.

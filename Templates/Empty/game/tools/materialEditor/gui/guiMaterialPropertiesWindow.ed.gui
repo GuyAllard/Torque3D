@@ -1962,6 +1962,37 @@
                            bitmap = "tools/gui/images/delete";
                         };
                      };
+                     new GuiContainer(){ // Z-Up only
+                        profile="GuiTransparentProfile";
+                        isContainer = "1";
+                        position = "0 0";
+                        Extent = "195 24";
+                        HorizSizing = "width";
+                        
+                        new GuiCheckBoxCtrl() {
+                           canSaveDynamicFields = "0";
+                           internalName = "triplanarZUpCheckbox";
+                           Enabled = "0";
+                           isContainer = "0";
+                           Profile = "ToolsGuiCheckBoxProfile";
+                           HorizSizing = "right";
+                           VertSizing = "bottom";
+                           position = "8 7";
+                           Extent = "57 16";
+                           MinExtent = "8 2";
+                           canSave = "1";
+                           Visible = "1";
+                           Command = "MaterialEditorGui.updateTriplanarZUpCheckbox($ThisControl.getValue());";
+                           tooltipprofile = "ToolsGuiDefaultProfile";
+                           ToolTip = "Use the z material for upward faces only.";
+                           hovertime = "1000";
+                           text = "+Z only";
+                           groupNum = "-1";
+                           buttonType = "ToggleButton";
+                           useMouseEvents = "0";
+                           useInactiveState = "0";
+                        };  
+                     };
                      new GuiBitmapCtrl(){
                         position="6 75";
                         extent ="175 2";

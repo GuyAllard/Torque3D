@@ -42,6 +42,7 @@ ImplementFeatureType( MFT_AccuSpecular, MFG_PreTexture, 4.0f, true );
 ImplementFeatureType(MFT_Triplanar, MFG_PreTexture, 3.5f, true);
 ImplementFeatureType(MFT_TriplanarDiffuseMapZ, MFG_Texture, 2.5f, true); // after diffuse
 ImplementFeatureType(MFT_TriplanarBumpMapZ, MFG_Texture, 9.5f, true); // after normal map
+ImplementFeatureType(MFT_TriplanarZUp, U32(-1), -1, true);
 // GUY <<
 
 ImplementFeatureType( MFT_DiffuseMap, MFG_Texture, 2.0f, true );

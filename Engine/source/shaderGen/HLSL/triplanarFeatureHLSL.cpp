@@ -257,10 +257,21 @@ LangElement* TriplanarFeatureHLSL::getDiffuseOp(Vector<ShaderComponent*> &compon
       diffuseMapZ = diffuseMap;
    }
 
-   return new GenOp("(tex2D(@, @) * @.xxxx + tex2D(@, @) * @.yyyy + tex2D(@, @) * @.zzzz)",
+   if (fd.features[MFT_TriplanarZUp])
+   {
+      return new GenOp("(tex2D(@, @) * @.x + tex2D(@, @) * @.y + tex2D(@, @) * @.z * @.w + tex2D(@, @) * @.z * (1 - @.w))",
                         diffuseMap, uvX, blendWeights,
                         diffuseMap, uvY, blendWeights,
-                        diffuseMapZ, uvZ, blendWeights);
+                        diffuseMapZ, uvZ, blendWeights, blendWeights,
+                        diffuseMap, uvZ, blendWeights, blendWeights);
+   }
+   else
+   {
+      return new GenOp("(tex2D(@, @) * @.x + tex2D(@, @) * @.y + tex2D(@, @) * @.z)",
+                           diffuseMap, uvX, blendWeights,
+                           diffuseMap, uvY, blendWeights,
+                           diffuseMapZ, uvZ, blendWeights);
+   }
 }
 
 LangElement* TriplanarFeatureHLSL::getBumpOp(Vector<ShaderComponent*> &componentList, MultiLine *meta, const MaterialFeatureData &fd)
@@ -300,8 +311,19 @@ LangElement* TriplanarFeatureHLSL::getBumpOp(Vector<ShaderComponent*> &component
       bumpMapZ = bumpMap;
    }
 
-   return new GenOp("(tex2D(@, @) * @.xxxx + tex2D(@, @) * @.yyyy + tex2D(@, @) * @.zzzz)",
-                     bumpMap, uvX, blendWeights,
-                     bumpMap, uvY, blendWeights,
-                     bumpMapZ, uvZ, blendWeights);
+   if (fd.features[MFT_TriplanarZUp])
+   {
+      return new GenOp("(tex2D(@, @) * @.x + tex2D(@, @) * @.y + tex2D(@, @) * @.z * @.w + tex2D(@, @) * @.z * (1 - @.w))",
+                        bumpMap, uvX, blendWeights,
+                        bumpMap, uvY, blendWeights,
+                        bumpMapZ, uvZ, blendWeights, blendWeights,
+                        bumpMap, uvZ, blendWeights, blendWeights);
+   }
+   else
+   {
+      return new GenOp("(tex2D(@, @) * @.x + tex2D(@, @) * @.y + tex2D(@, @) * @.z)",
+                        bumpMap, uvX, blendWeights,
+                        bumpMap, uvY, blendWeights,
+                        bumpMapZ, uvZ, blendWeights);
+   }
 }

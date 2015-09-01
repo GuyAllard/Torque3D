@@ -132,6 +132,7 @@ Material::Material()
       mTriplanar[i] = false;
       mTriplanarTightness[i] = 3.f;
       mTriplanarScale[i] = 1.f;
+      mTriplanarZUp[i] = false;
       // GUY <<
 	  
       mParallaxScale[i] = 0.0f;
@@ -298,6 +299,9 @@ void Material::initPersistFields()
 
       addField("triplanarBumpZMap", TypeImageFilename, Offset(mTriplanarBumpMapZFilename, Material), MAX_STAGES,
          "The normal map texture applied to the z-normal triplanar projection.");
+
+      addField("triplanarZUp", TYPEID<bool>(), Offset(mTriplanarZUp, Material), MAX_STAGES,
+         "Use Z-texture only for 'up' faces.");
       // GUY <<
 
       addField( "specularMap", TypeImageFilename, Offset(mSpecularMapFilename, Material), MAX_STAGES,
