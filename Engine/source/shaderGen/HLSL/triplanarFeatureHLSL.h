@@ -65,15 +65,4 @@ public:
    }
 };
 
-class TriplanarDiffuseMapZFeatureHLSL : public ShaderFeatureHLSL
-{
-public:
-   virtual String getName() { return "Triplanar Diffuse Z"; }
-};
-
-class TriplanarBumpMapZFeatureHLSL : public ShaderFeatureHLSL
-{
-public:
-   virtual String getName() { return "Triplanar Bump Z"; }
-};
 #endif
