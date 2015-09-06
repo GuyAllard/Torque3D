@@ -35,8 +35,8 @@ public:
 
    virtual void processPix(Vector<ShaderComponent*> &componentList, const MaterialFeatureData &fd);
    
-   void addWorldSpaceNormal(MultiLine *meta);
-   void addBlendWeights(Vector<ShaderComponent*> &componentList, MultiLine *meta);
+   void addWorldSpaceNormal(Vector<ShaderComponent*> &componentList, MultiLine *meta);
+
    void addUvs(Vector<ShaderComponent*> &componentList, MultiLine *meta);
 
    // tri planar uvs
@@ -59,7 +59,7 @@ public:
       Resources res;
 
       res.numTex = 0;    // no textures
-      res.numTexReg = 3; // 3 registers: blendWeights, tri_u, tri_v
+      res.numTexReg = 3; // 3 registers: normal, tri_u, tri_v
 
       return res;
    }

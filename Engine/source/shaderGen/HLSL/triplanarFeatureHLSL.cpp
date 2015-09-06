@@ -12,8 +12,7 @@ void TriplanarFeatureHLSL::processVert(Vector<ShaderComponent*> &componentList, 
    MultiLine *meta = new MultiLine;
    output = meta;
 
-   addWorldSpaceNormal(meta);
-   addBlendWeights(componentList, meta);
+   addWorldSpaceNormal(componentList, meta);
    addUvs(componentList, meta);
 }
 
@@ -21,14 +20,14 @@ void TriplanarFeatureHLSL::processPix(Vector<ShaderComponent*> &componentList, c
 {
    MultiLine *meta = new MultiLine;
    output = meta;
-   
+
    get_blendWeights(componentList, meta);
    get_uvX(componentList, meta);
    get_uvY(componentList, meta);
    get_uvZ(componentList, meta);
 }
 
-void TriplanarFeatureHLSL::addWorldSpaceNormal(MultiLine *meta)
+void TriplanarFeatureHLSL::addWorldSpaceNormal(Vector<ShaderComponent*> &componentList, MultiLine *meta)
 {
    // search for vert normal
    Var *inNormal = (Var*)LangElement::find("normal");
@@ -45,34 +44,29 @@ void TriplanarFeatureHLSL::addWorldSpaceNormal(MultiLine *meta)
          worldInvTpose->constSortPos = cspPass;
       }
 
-      Var *worldNormal = new Var;
-      worldNormal->setType("float3");
-      worldNormal->setName("worldNormal");
-      LangElement *worldNormalDecl = new DecOp(worldNormal);
+      Var *outNormal = (Var*)LangElement::find("tpNormal");
+      if (!outNormal)
+      {
+         // Setup the connector.
+         ShaderConnector *connectComp = dynamic_cast<ShaderConnector *>(componentList[C_CONNECTOR]);
+         outNormal = connectComp->getElement(RT_TEXCOORD);
+         outNormal->setName("tpNormal");
+         outNormal->setStructName("OUT");
+         outNormal->setType("float3");
+         outNormal->mapsToSampler = true;
+      }
 
       // Transform the normal to world space.
-      //float3 wsNormal = normalize(mul(worldInvTpose, float4(In.normal.xyz, 0)).xyz);
-      meta->addStatement(new GenOp("   @ = normalize(mul( @, float4( @.xyz, 0.0 ) ).xyz);\r\n", worldNormalDecl, worldInvTpose, inNormal));
+      //OUT.tpNormal = normalize(mul(worldInvTpose, float4(In.normal.xyz, 0)).xyz);
+      meta->addStatement(new GenOp("   @ = normalize(mul( @, float4( @.xyz, 0.0 ) ).xyz);\r\n", outNormal, worldInvTpose, inNormal));
    }
 }
 
-void TriplanarFeatureHLSL::addBlendWeights(Vector<ShaderComponent*> &componentList, MultiLine *meta)
+Var* TriplanarFeatureHLSL::get_blendWeights(Vector<ShaderComponent*> &componentList, MultiLine *meta)
 {
-   Var *worldNormal = (Var*)LangElement::find("worldNormal");
-   if (!worldNormal)
-      return;
-
-   Var *outBlendWeights = (Var*)LangElement::find("blendWeights");
-   if (!outBlendWeights)
-   {
-      // Setup the connector.
-      ShaderConnector *connectComp = dynamic_cast<ShaderConnector *>(componentList[C_CONNECTOR]);
-      outBlendWeights = connectComp->getElement(RT_TEXCOORD);
-      outBlendWeights->setName("blendWeights");
-      outBlendWeights->setStructName("OUT");
-      outBlendWeights->setType("float4");
-      outBlendWeights->mapsToSampler = false;
-   }
+   Var *inNormal = getInTexCoord("tpNormal", "float3", true, componentList);
+   if (!inNormal)
+      return NULL;
 
    Var *triplanarTightness = (Var*)LangElement::find("triplanarTightness");
    if (!triplanarTightness)
@@ -83,13 +77,24 @@ void TriplanarFeatureHLSL::addBlendWeights(Vector<ShaderComponent*> &componentLi
       triplanarTightness->uniform = true;
       triplanarTightness->constSortPos = cspPass;
    }
-   //Out.blendWeights = triBlendWeights(wsNormal, 3);
-   meta->addStatement(new GenOp("   @ = triBlendWeights(@, @);\r\n", outBlendWeights, worldNormal, triplanarTightness));
+
+   Var *blendWeights = (Var*)LangElement::find("blendWeights");
+   if (!blendWeights)
+   {
+      blendWeights = new Var;
+      blendWeights->setType("float4");
+      blendWeights->setName("blendWeights");
+      LangElement *blendWeightsDecl = new DecOp(blendWeights);
+
+      //float4 blendWeights = triBlendWeights(tpNormal, triplanarTightness);
+      meta->addStatement(new GenOp("   @ = triBlendWeights(@, @);\r\n", blendWeightsDecl, inNormal, triplanarTightness));
+   } 
+   return blendWeights;
 }
 
 void TriplanarFeatureHLSL::addUvs(Vector<ShaderComponent*> &componentList, MultiLine *meta)
 {
-   Var *worldNormal = (Var*)LangElement::find("worldNormal");
+   Var *worldNormal = (Var*)LangElement::find("tpNormal");
    if (!worldNormal)
       return;
 
@@ -211,13 +216,6 @@ Var* TriplanarFeatureHLSL::get_uvZ(Vector<ShaderComponent*> &componentList, Mult
    }
 
    return uvZ;
-}
-
-Var* TriplanarFeatureHLSL::get_blendWeights(Vector<ShaderComponent*> &componentList, MultiLine *meta)
-{
-   Var *inBlendWeights = getInTexCoord("blendWeights", "float4", true, componentList);
-   
-   return inBlendWeights;
 }
 
 LangElement* TriplanarFeatureHLSL::getDiffuseOp(Vector<ShaderComponent*> &componentList, MultiLine *meta, const MaterialFeatureData &fd)
